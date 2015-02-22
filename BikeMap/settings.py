@@ -83,3 +83,5 @@ TEMPLATE_DIRS = (BASE_DIR + '/mapper/html/',
 STATICFILES_DIRS = (BASE_DIR + '/mapper/javascript',
 
 )
+
+STATIC_ROOT = 'staticfiles'
