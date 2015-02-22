@@ -223,7 +223,7 @@
 
         L.control.layers(baseMaps, overlayMaps).addTo(map);
         //User's Location
-        L.marker([latitude, longitutde]).addTo(map);
+        L.marker([latitude, longitutde]).bindPopup("You").addTo(map);
       }
       getLocation();
     </script>
