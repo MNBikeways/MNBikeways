@@ -26,10 +26,56 @@
 
 
     <style type="text/css">
+      #header {
+        height: 50px;
+        width: 100%;
+        background-color: #630062;
+        border-bottom: solid 1px white;
+        vertical-align: middle;
+        padding: 10px 10px;
+      }
+
+      #headerTitle {
+        color: white;
+        font-family: sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        float: left;
+        margin-left: 10px;
+      }
+
+      #hamburger {
+        float: left;
+        height: 25px;
+        width: 25px;
+      }
+
+      .hamburger {
+        height: 25px;
+        width: 25px;
+      }
+
+      #search {
+        float: right;
+        vertical-align: middle;
+        width: 25px;
+        height: 25px;
+      }
+
+      .searchImage {
+        width: 25px;
+        height: 25px;
+      }
+
+      .clearBoth {
+        clear: both;
+      }
+
       #map {
         height: 600px;
-        width: 100%;
       }
+
       #error {
         display: none;
         background-color: pink;
@@ -45,24 +91,44 @@
   <div id="error">
     Error Test
   </div>
-  <div>
-    <span id="location">Loading your location...</span>
+
+  <div id="location">
+    Loading your location...
   </div>
-    <div class="container">
-       <div class="row">
-           <div class="col-md-12">
-              <div id="map">
-              </div>
-           </div>
-        </div>
+
+  <div id="header">
+    <div id="hamburger">
+      <img src="../images/hamburger.png" alt="Menu Icon" class="hamburger" />
     </div>
+    <div id="headerTitle">
+      MNBikeways
+    </div>
+    <div id="search">
+      <img src="../images/search.png" alt="Search Icon" class="searchImage" />
+    </div>
+    <div class="clearBoth"></div>
+  </div>
+
+  <div id="map">
+  </div>
 
     <script type="text/javascript">
       var latitude;
       var longitutde;
       var wHeight = $(window).height();
-      //alert(wHeight);
-      $('#map').height(wHeight);
+      var wWidth = $(window).width();
+
+      //Set and keep map full screen
+      $('#map').height(wHeight-50);
+      $('#map').width(wWidth);
+
+      $(window).resize(function(){
+        wHeight = $(window).height();
+        wWidth = $(window).width();
+        $('#map').height(wHeight-50);
+        $('#map').width(wWidth);
+      });
+
       //Get User Location
       function getLocation() {
         if (navigator.geolocation) {
@@ -78,6 +144,7 @@
         latitude = position.coords.latitude;
         longitutde = position.coords.longitude;
         $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitutde);
+        $('#location').hide();
         loadLeaflet(latitude,longitutde);
       }
       //Leaflet Scipt
