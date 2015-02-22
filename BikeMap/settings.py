@@ -80,7 +80,7 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (BASE_DIR + '/mapper/html/',
 )
 
-STATICFILES_DIRS = (BASE_DIR + 'staticfiles',
+STATICFILES_DIRS = (BASE_DIR + 'static',
 
 )
 
