@@ -70,6 +70,7 @@
         } 
         else {
           $('#error').html("We were not able to get your location.");
+          $('#error').show();
         }
       }
 
@@ -102,9 +103,21 @@
             attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
             maxZoom: 18
         });
-
+        
+        // campus connector
+        /* Code Sample from UMN
+        var ConnIcon = L.icon({ iconUrl : "lib/img/CampusConn.png", iconSize: [32, 37], iconAnchor: [16, 37], popupAnchor: [0, -28] });
+        var ConnRouteStyle = { "color" : "#965252", "weight" : 4, "opacity" : 0.85, clickable : false };
+        var ConnectorLayer = L.geoJson(ConnStops, {
+           pointToLayer : function(feature, latlng) { return L.marker(latlng, {icon: ConnIcon}); },
+           onEachFeature : ConnFeatures
+        });
+        ConnectorLayer.addData(ConnStops);
+        ConnectorLayer.addData(ConnRoute).setStyle(ConnRouteStyle);
+      */
+        
         var map = L.map('map', {
-            center: [latitude, longitutde], 
+            center: [latitude, longitutde],
             zoom: 16,
             layers: [Esri_WorldGrayCanvas]
         });
