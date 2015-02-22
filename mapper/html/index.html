@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+
+    <title>MNBikeways | A Geo:Code App</title>
+
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+      #map {
+        height: 600px;
+        width: 100%;
+      }
+      #error {
+        display: none;
+        background-color: pink;
+        color: maroon;
+        border: solid 1px maroon;
+        padding: 2px 5px 2px 5px;
+      }
+    </style>
+
+</head>
+
+<body>
+  <div id="error">
+    Error Test
+  </div>
+  <div>
+    <span id="location">Loading your location...</span>
+  </div>
+    <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+              <div id="map">
+              </div>
+           </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+      var latitude;
+      var longitutde;
+      var wHeight = $(window).height();
+      //alert(wHeight);
+      $('#map').height(wHeight);
+      //Get User Location
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } 
+        else {
+          $('#error').html("We were not able to get your location.");
+        }
+      }
+
+      function showPosition(position) {
+        latitude = position.coords.latitude;
+        longitutde = position.coords.longitude;
+        $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitutde);
+        loadLeaflet(latitude,longitutde);
+      }
+      //Leaflet Scipt
+      function loadLeaflet (lat, long) {
+        var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
+            attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+            subdomains: '0123',
+            maxZoom: 18
+        });
+
+        var Acetate_roads = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-roads/{z}/{x}/{y}.png', {
+                attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+                subdomains: '0123',
+                maxZoom: 18
+        });
+
+        var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            maxZoom: 18
+        });
+
+        var Esri_NatGeoWorldMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+            maxZoom: 18
+        });
+
+        var map = L.map('map', {
+            center: [latitude, longitutde], 
+            zoom: 16,
+            layers: [Esri_WorldGrayCanvas]
+        });
+
+        var baseMaps = {
+            "All Roads": Esri_WorldGrayCanvas,
+            "NatGeo": Esri_NatGeoWorldMap,
+            "Some Roads": Acetate_roads,
+            "Clear Roads": Acetate_basemap
+        };
+        var popupContent = "<p>Hello World!</p>";
+
+        L.control.layers(baseMaps).addTo(map);
+        L.marker([latitude, longitutde]).addTo(map);    
+      }
+      getLocation();
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
+    </body>
+</html>
