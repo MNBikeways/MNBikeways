@@ -70,6 +70,7 @@
         } 
         else {
           $('#error').html("We were not able to get your location.");
+          $('#error').show();
         }
       }
 
@@ -84,27 +85,60 @@
         var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
             attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
             subdomains: '0123',
-            maxZoom: 18
+            maxZoom: 16
         });
 
         var Acetate_roads = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-roads/{z}/{x}/{y}.png', {
                 attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
                 subdomains: '0123',
-                maxZoom: 18
+                maxZoom: 16
         });
 
         var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-            maxZoom: 18
+            maxZoom: 16
         });
 
         var Esri_NatGeoWorldMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
-            maxZoom: 18
+            maxZoom: 16
+        });
+        
+        // campus connector
+        /* Code Sample from UMN
+        var ConnIcon = L.icon({ iconUrl : "lib/img/CampusConn.png", iconSize: [32, 37], iconAnchor: [16, 37], popupAnchor: [0, -28] });
+        var ConnRouteStyle = { "color" : "#965252", "weight" : 4, "opacity" : 0.85, clickable : false };
+        var ConnectorLayer = L.geoJson(ConnStops, {
+           pointToLayer : function(feature, latlng) { return L.marker(latlng, {icon: ConnIcon}); },
+           onEachFeature : ConnFeatures
+        });
+        ConnectorLayer.addData(ConnStops);
+        ConnectorLayer.addData(ConnRoute).setStyle(ConnRouteStyle);
+        */
+
+        //Fixit Locations
+        //http://www.dero.com//fixitmap/fixitmap.html
+        var fixitIcon = L.icon({
+          iconUrl: "http://www.dero.com/fixitmap/marker.png",
         });
 
+        var fixitLayer = L.layerGroup([
+          L.marker([44.1493416835445, -94.00068640708923],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+          L.marker([44.147032170368675, -93.99894565343857],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+          L.marker([44.1457465022146, -93.99874448776245],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+          L.marker([44.14908892944841, -94.00068255150131],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+          L.marker([44.32444675302916, -93.97147178649902],{icon: fixitIcon}).bindPopup("Gustavus Adolphus College"),
+          L.marker([45.55331410263781, -94.15017664432526],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
+          L.marker([44.94945428128376, -93.32204461097717],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
+          L.marker([45.548659719926626, -94.15192544460297],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
+          L.marker([44.95025914661996, -93.29116702079773],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
+          L.marker([44.962467417644724, -93.23051154613495],{icon: fixitIcon}).bindPopup("Seward Coop"),
+          L.marker([44.9719065478189, -93.21057736873627],{icon: fixitIcon}).bindPopup("Dero HQ"),
+          L.marker([45.05771344221184, -92.8063952922821],{icon: fixitIcon}).bindPopup("River Market Coop"),
+        ]);
+        
         var map = L.map('map', {
-            center: [latitude, longitutde], 
+            center: [latitude, longitutde],
             zoom: 16,
             layers: [Esri_WorldGrayCanvas]
         });
@@ -113,12 +147,16 @@
             "All Roads": Esri_WorldGrayCanvas,
             "NatGeo": Esri_NatGeoWorldMap,
             "Some Roads": Acetate_roads,
-            "Clear Roads": Acetate_basemap
+            "Clear Roads": Acetate_basemap,
         };
-        var popupContent = "<p>Hello World!</p>";
 
-        L.control.layers(baseMaps).addTo(map);
-        L.marker([latitude, longitutde]).addTo(map);    
+        var overlayMaps = {
+          "Fixit Stations": fixitLayer,
+        };
+
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+        //User's Location
+        L.marker([latitude, longitutde]).addTo(map);
       }
       getLocation();
     </script>
