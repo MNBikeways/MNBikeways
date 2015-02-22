@@ -26,10 +26,39 @@
 
 
     <style type="text/css">
+      #header {
+        height: 50px;
+        width: 100%;
+        background-color: #630062;
+        border-bottom: solid 1px black;
+        padding: 2px 5px 2px 5px;
+      }
+
+      #headerTitle {
+        color: white;
+        font-family: sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        float: left;
+      }
+
+      #hamburger {
+        float: left;
+      }
+
+      #magnifyingGlass {
+        float: left;
+      }
+
+      .clearBoth {
+        clear: both;
+      }
+
       #map {
         height: 600px;
-        width: 100%;
       }
+
       #error {
         display: none;
         background-color: pink;
@@ -45,24 +74,43 @@
   <div id="error">
     Error Test
   </div>
-  <div>
-    <span id="location">Loading your location...</span>
+
+  <div id="location">
+    Loading your location...
   </div>
-    <div class="container">
-       <div class="row">
-           <div class="col-md-12">
-              <div id="map">
-              </div>
-           </div>
-        </div>
+
+  <div id="header">
+    <div id="hamburger">
     </div>
+    <div id="headerTitle">
+      MNBikeways
+    </div>
+    <div id="magnifyingGlass">
+      <img src="images/search.png" alt="Search Icon" />
+    </div>
+    <div class="clearBoth"></div>
+  </div>
+
+  <div id="map">
+  </div>
 
     <script type="text/javascript">
       var latitude;
       var longitutde;
       var wHeight = $(window).height();
-      //alert(wHeight);
+      var wWidth = $(window).width();
+
+      //Set and keep map full screen
       $('#map').height(wHeight);
+      $('#map').width(wWidth);
+
+      $(window).resize(function(){
+        wHeight = $(window).height();
+        wWidth = $(window).width();
+        $('#map').height(wHeight);
+        $('#map').width(wWidth);
+      });
+
       //Get User Location
       function getLocation() {
         if (navigator.geolocation) {
@@ -78,6 +126,7 @@
         latitude = position.coords.latitude;
         longitutde = position.coords.longitude;
         $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitutde);
+        $('#location').hide();
         loadLeaflet(latitude,longitutde);
       }
       //Leaflet Scipt
@@ -122,6 +171,7 @@
           iconUrl: "http://www.dero.com/fixitmap/marker.png",
         });
 
+        //var fixitLayer = L.layerGroup([msuMankato,deroHQ]);
         var fixitLayer = L.layerGroup([
           L.marker([44.1493416835445, -94.00068640708923],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
           L.marker([44.147032170368675, -93.99894565343857],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
@@ -136,6 +186,19 @@
           L.marker([44.9719065478189, -93.21057736873627],{icon: fixitIcon}).bindPopup("Dero HQ"),
           L.marker([45.05771344221184, -92.8063952922821],{icon: fixitIcon}).bindPopup("River Market Coop"),
         ]);
+
+        /*markers.addLayer(L.marker([44.1493416835445, -94.00068640708923], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"));
+        markers.addLayer(L.marker([44.147032170368675, -93.99894565343857], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"));
+        markers.addLayer(L.marker([44.1457465022146, -93.99874448776245], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"));
+        markers.addLayer(L.marker([44.14908892944841, -94.00068255150131], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"));
+        markers.addLayer(L.marker([44.32444675302916, -93.97147178649902], {icon: fixitIcon}).bindPopup("Gustavus Adolphus College"));
+        markers.addLayer(L.marker([45.55331410263781, -94.15017664432526], {icon: fixitIcon}).bindPopup("Saint Cloud State"));
+        markers.addLayer(L.marker([44.94945428128376, -93.32204461097717], {icon: fixitIcon}).bindPopup("Midtown Greenway"));
+        markers.addLayer(L.marker([45.548659719926626, -94.15192544460297], {icon: fixitIcon}).bindPopup("Saint Cloud State"));
+        markers.addLayer(L.marker([44.95025914661996, -93.29116702079773], {icon: fixitIcon}).bindPopup("Midtown Greenway"));
+        markers.addLayer(L.marker([44.962467417644724, -93.23051154613495], {icon: fixitIcon}).bindPopup("Seward Coop"));
+        markers.addLayer(L.marker([44.9719065478189, -93.21057736873627], {icon: fixitIcon}).bindPopup("Dero HQ"));
+        markers.addLayer(L.marker([45.05771344221184, -92.8063952922821], {icon: fixitIcon}).bindPopup("River Market Coop")); */
         
         var map = L.map('map', {
             center: [latitude, longitutde],
