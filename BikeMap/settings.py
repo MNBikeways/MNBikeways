@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -77,10 +77,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (BASE_DIR + '/mapper/html/',
+TEMPLATE_DIRS = (os.join(BASE_DIR, 'mapper/html/'),
 )
 
-STATICFILES_DIRS = (BASE_DIR + '/static/',
+STATICFILES_DIRS = (os.join(BASE_DIR , 'static'),
 
 )
 
