@@ -17,5 +17,6 @@ class MainPage(TemplateView):
 class OverpassApiAjax(View):
 
     def get(self,request,*args,**kwargs):
-        request
-
+        api = overpass.API()
+        r = api.Get('way(around:1000,' + str(request['lat']) + "," + str(request['lon']) + "['bicycle'='yes']")
+        return HttpResponse(r['elements'])
