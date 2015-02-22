@@ -82,7 +82,7 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mapper/html/'),
 )
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static',
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
                                  os.path.join(BASE_DIR, 'mapper/images'), )
 
 STATIC_ROOT = 'staticfiles'
