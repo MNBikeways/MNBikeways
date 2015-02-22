@@ -58,8 +58,8 @@
     </div>
 
     <script type="text/javascript">
-      var lat;
-      var long;
+      var latitude;
+      var longitutde;
       var wHeight = $(window).height();
       //alert(wHeight);
       $('#map').height(wHeight);
@@ -74,41 +74,39 @@
       }
 
       function showPosition(position) {
-        lat = position.coords.latitude;
-        long = position.coords.longitude;
-        $('#location').html("Your Location: <b>Latitude:</b> " + lat + " <b>Longitude:</b> " + long);
-        loadLeaflet(lat,long);
+        latitude = position.coords.latitude;
+        longitutde = position.coords.longitude;
+        $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitutde);
+        loadLeaflet(latitude,longitutde);
       }
       //Leaflet Scipt
       function loadLeaflet (lat, long) {
         var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
             attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
             subdomains: '0123',
-            minZoom: 2,
             maxZoom: 18
         });
 
         var Acetate_roads = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-roads/{z}/{x}/{y}.png', {
                 attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
                 subdomains: '0123',
-                minZoom: 2,
-                maxZoom: 14
+                maxZoom: 18
         });
 
         var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-            maxZoom: 16
+            maxZoom: 18
         });
 
         var Esri_NatGeoWorldMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
-            maxZoom: 16
+            maxZoom: 18
         });
 
         var map = L.map('map', {
-            center: [long, lat], 
-            zoom: 11,
-            layers: [Acetate_basemap]
+            center: [latitude, longitutde], 
+            zoom: 16,
+            layers: [Esri_WorldGrayCanvas]
         });
 
         var baseMaps = {
@@ -117,8 +115,10 @@
             "Some Roads": Acetate_roads,
             "Clear Roads": Acetate_basemap
         };
+        var popupContent = "<p>Hello World!</p>";
 
-        L.control.layers(baseMaps).addTo(map);        
+        L.control.layers(baseMaps).addTo(map);
+        L.marker([latitude, longitutde]).addTo(map);    
       }
       getLocation();
     </script>
