@@ -20,11 +20,11 @@ BASE_DIR = ''
 SECRET_KEY = 'fngndz(6u!g1d#@e*_@no1v@36z=r@t($3el!%8%dle&=k6h!!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['http://mnbikeways.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
