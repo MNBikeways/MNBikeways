@@ -5,13 +5,6 @@ import overpass
 import geojson
 
 
-
-# helper function for Overpass API to output valid geojson
-def osmJsonToGeoJson(data):
-    for feat in data['elements']:
-        for point in feat['nodes']:
-            print(point)
-
 class MainPage(TemplateView):
 
     def get(self, request, *args, **kwargs):
@@ -27,7 +20,4 @@ class OverpassApiAjax(View):
         # OSM EPSG is 900913
         LatLonString = str(request.GET.get('lat', '42')) + "," + str(request.GET.get('lon', '-92')) + ")"
         r = api.Get('way(around:2000,' + LatLonString + "[bicycle=yes]", asGeoJSON=True)
-
-        print(r)
-
         return HttpResponse(geojson.dumps(r), content_type="application/json; charset='utf-8'")
