@@ -243,7 +243,11 @@
 
           //Will be set in the ajax success
           $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitutde}, function (data) {
-              map.addLayer(new L.geoJson(data, {}));
+              L.geoJson(data, {
+                  style: function (feature) {
+                      return {color: 'green'};
+                  }
+              }).addTo(map);
           });
 
       }
