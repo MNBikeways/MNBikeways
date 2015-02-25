@@ -61,6 +61,7 @@ WSGI_APPLICATION = 'BikeMap.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
+DEFAULT_CHARSET = 'utf-8'
 
 LANGUAGE_CODE = 'en-us'
 
