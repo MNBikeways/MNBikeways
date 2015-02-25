@@ -128,6 +128,8 @@
     <script type="text/javascript">
       var latitude;
       var longitutde;
+
+
       var wHeight = $(window).height();
       var wWidth = $(window).width();
 
@@ -152,6 +154,7 @@
           $('#error').show();
         }
       }
+
 
       function showPosition(position) {
         latitude = position.coords.latitude;
@@ -237,8 +240,16 @@
         L.control.layers(baseMaps, overlayMaps).addTo(map);
         //User's Location
         L.marker([latitude, longitutde]).bindPopup("You").addTo(map);
+          //Will be set in the ajax success response in the function getOSMgeojson
+
+          $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitutde}, function (data) {
+              map.addLayer(L.geoJson(String.toJSON(data)))
+          });
+
       }
       getLocation();
+
+
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
