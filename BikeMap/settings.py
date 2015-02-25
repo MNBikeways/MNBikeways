@@ -84,7 +84,8 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mapper/html/'),
 )
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
-                                 os.path.join(BASE_DIR, 'mapper/images'), )
+                    os.path.join(BASE_DIR, 'mapper/images'),
+                    os.path.join(BASE_DIR, 'mapper/javascript'),)
 
 STATIC_ROOT = 'staticfiles'
 
