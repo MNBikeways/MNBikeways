@@ -21,4 +21,4 @@ class OverpassApiAjax(View):
         r = api.Get('way(around:1000,' + str(request.GET.get('lat', '42')) + "," + str(
             request.GET.get('lon', '-92')) + ")" + "[bicycle=yes];")
 
-        return HttpResponse(json.dumps(json.loads(r['elements']))), content_type="application/json; charset='utf-8'")
+        return HttpResponse(json.dumps(json.loads(r['elements'])), content_type="application/json; charset='utf-8'")
