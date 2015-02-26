@@ -127,7 +127,7 @@
 
     <script type="text/javascript">
       var latitude;
-      var longitutde;
+      var longitude;
 
 
       var wHeight = $(window).height();
@@ -158,10 +158,10 @@
 
       function showPosition(position) {
         latitude = position.coords.latitude;
-        longitutde = position.coords.longitude;
-        $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitutde);
+        longitude = position.coords.longitude;
+        $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitude);
         $('#location').hide();
-        loadLeaflet(latitude,longitutde);
+        loadLeaflet(latitude,longitude);
       }
       //Leaflet Scipt
       function loadLeaflet (lat, long) {
@@ -221,7 +221,7 @@
         ]);
         
         var map = L.map('map', {
-            center: [latitude, longitutde],
+            center: [latitude, longitude],
             zoom: 16,
             layers: [Esri_WorldGrayCanvas]
         });
@@ -239,10 +239,10 @@
 
         L.control.layers(baseMaps, overlayMaps).addTo(map);
         //User's Location
-        L.marker([latitude, longitutde]).bindPopup("You").addTo(map);
+        L.marker([latitude, longitude]).bindPopup("You").addTo(map);
 
           //Will be set in the ajax success
-          $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitutde}, function (data) {
+          $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitude}, function (data) {
               L.geoJson(data, {
                   style: function (feature) {
                       return {color: 'green'};
