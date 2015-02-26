@@ -1,110 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
 
-    <title>MNBikeways | A Geo:Code App</title>
+  <title>MNBikeways | A Geo:Code App</title>
 
-    <link rel="shortcut icon" type="images/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="shortcut icon" type="images/x-icon" href="static/favicon.ico">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="static/osmtogeojson.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="static/osmtogeojson.js"></script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
 
-    <style type="text/css">
-      #header {
-        height: 50px;
-        width: 100%;
-        background-color: #630062;
-        border-bottom: solid 1px white;
-        vertical-align: middle;
-        padding: 10px 10px;
-      }
+  <style type="text/css">
+    #header {
+      height: 50px;
+      width: 100%;
+      background-color: #630062;
+      border-bottom: solid 1px white;
+      vertical-align: middle;
+      padding: 10px 10px;
+    }
 
-      #headerTitle {
-        color: white;
-        font-family: sans-serif;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        float: left;
-        margin-left: 10px;
-      }
+    #headerTitle {
+      color: white;
+      font-family: sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      float: left;
+      margin-left: 10px;
+    }
 
-      #hamburger {
-        float: left;
-        height: 25px;
-        width: 25px;
-      }
+    #hamburger {
+      float: left;
+      height: 25px;
+      width: 25px;
+    }
 
-      #logo {
-        float: left;
-        margin-left: 10px;
-        height: 25px;
-      }
+    #logo {
+      float: left;
+      margin-left: 10px;
+      height: 25px;
+    }
 
-      .logo {
-        height: 25px;
-      }
+    .logo {
+      height: 25px;
+    }
 
-      .hamburger {
-        height: 25px;
-        width: 25px;
-      }
+    .hamburger {
+      height: 25px;
+      width: 25px;
+    }
 
-      #search {
-        float: right;
-        vertical-align: middle;
-        width: 25px;
-        height: 25px;
-      }
+    #search {
+      float: right;
+      vertical-align: middle;
+      width: 25px;
+      height: 25px;
+    }
 
-      .searchImage {
-        width: 25px;
-        height: 25px;
-      }
+    .searchImage {
+      width: 25px;
+      height: 25px;
+    }
 
-      .clearBoth {
-        clear: both;
-      }
+    .clearBoth {
+      clear: both;
+    }
 
-      #map {
-        height: 600px;
-      }
+    #map {
+      height: 600px;
+    }
 
-      #error {
-        display: none;
-        background-color: pink;
-        color: maroon;
-        border: solid 1px maroon;
-        padding: 2px 5px 2px 5px;
-      }
-    </style>
-
+    #error {
+      display: none;
+      background-color: pink;
+      color: maroon;
+      border: solid 1px maroon;
+      padding: 2px 5px 2px 5px;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="error">
-    Error Test
-  </div>
+  <div id="error">Error Test</div>
 
-  <div id="location">
-    Loading your location...
-  </div>
+  <div id="location">Loading your location...</div>
 
   <div id="header">
     <div id="hamburger">
@@ -113,151 +107,156 @@
     <div id="logo">
       <img src="static/bicycle.png" alt="MNBikeways Logo" class="logo" />
     </div>
-    <div id="headerTitle">
-      MNBikeways
-    </div>
+    <div id="headerTitle">MNBikeways</div>
     <div id="search">
       <img src="static/search.png" alt="Search Icon" class="searchImage" />
     </div>
     <div class="clearBoth"></div>
   </div>
 
-  <div id="map">
-  </div>
+  <div id="map"></div>
 
-    <script type="text/javascript">
-      var latitude;
-      var longitude;
+  <script type="text/javascript">
+    var latitude;
+    var longitude;
+    var latLng;
 
 
-      var wHeight = $(window).height();
-      var wWidth = $(window).width();
+    var wHeight = $(window).height();
+    var wWidth = $(window).width();
 
-      //Set and keep map full screen
+    //Set and keep map full screen
+    $('#map').height(wHeight-50);
+    $('#map').width(wWidth);
+
+    $(window).resize(function(){
+      wHeight = $(window).height();
+      wWidth = $(window).width();
       $('#map').height(wHeight-50);
       $('#map').width(wWidth);
+    });
 
-      $(window).resize(function(){
-        wHeight = $(window).height();
-        wWidth = $(window).width();
-        $('#map').height(wHeight-50);
-        $('#map').width(wWidth);
+    //Get User Location
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } 
+      else {
+        $('#error').html("We were not able to get your location.");
+        $('#error').show();
+      }
+    }
+
+
+    function showPosition(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+      $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitude);
+      $('#location').hide();
+      loadLeaflet(latitude,longitude);
+    }
+
+    //Leaflet Scipt
+    function loadLeaflet (lat, long) {
+      var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
+        attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+        subdomains: '0123',
+        maxZoom: 16
       });
 
-      //Get User Location
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } 
-        else {
-          $('#error').html("We were not able to get your location.");
-          $('#error').show();
-        }
-      }
+      var Acetate_roads = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-roads/{z}/{x}/{y}.png', {
+        attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+        subdomains: '0123',
+        maxZoom: 16
+      });
 
+      var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        maxZoom: 16
+      });
 
-      function showPosition(position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        $('#location').html("Your Location: <b>Latitude:</b> " + latitude + " <b>Longitude:</b> " + longitude);
-        $('#location').hide();
-        loadLeaflet(latitude,longitude);
-      }
-      //Leaflet Scipt
-      function loadLeaflet (lat, long) {
-        var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
-            attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-            subdomains: '0123',
-            maxZoom: 16
-        });
+      var Esri_NatGeoWorldMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+        maxZoom: 16
+      });
 
-        var Acetate_roads = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-roads/{z}/{x}/{y}.png', {
-                attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-                subdomains: '0123',
-                maxZoom: 16
-        });
+      // campus connector
+      /* Code Sample from UMN
+      var ConnIcon = L.icon({ iconUrl : "lib/img/CampusConn.png", iconSize: [32, 37], iconAnchor: [16, 37], popupAnchor: [0, -28] });
+      var ConnRouteStyle = { "color" : "#965252", "weight" : 4, "opacity" : 0.85, clickable : false };
+      var ConnectorLayer = L.geoJson(ConnStops, {
+        pointToLayer : function(feature, latlng) { return L.marker(latlng, {icon: ConnIcon}); },
+        onEachFeature : ConnFeatures
+      });
+      ConnectorLayer.addData(ConnStops);
+      ConnectorLayer.addData(ConnRoute).setStyle(ConnRouteStyle);
+      */
 
-        var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-            maxZoom: 16
-        });
+      //Fixit Locations
+      //http://www.dero.com//fixitmap/fixitmap.html
+      var fixitIcon = L.icon({
+        iconUrl: "http://www.dero.com/fixitmap/marker.png",
+      });
 
-        var Esri_NatGeoWorldMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
-            maxZoom: 16
-        });
-        
-        // campus connector
-        /* Code Sample from UMN
-        var ConnIcon = L.icon({ iconUrl : "lib/img/CampusConn.png", iconSize: [32, 37], iconAnchor: [16, 37], popupAnchor: [0, -28] });
-        var ConnRouteStyle = { "color" : "#965252", "weight" : 4, "opacity" : 0.85, clickable : false };
-        var ConnectorLayer = L.geoJson(ConnStops, {
-           pointToLayer : function(feature, latlng) { return L.marker(latlng, {icon: ConnIcon}); },
-           onEachFeature : ConnFeatures
-        });
-        ConnectorLayer.addData(ConnStops);
-        ConnectorLayer.addData(ConnRoute).setStyle(ConnRouteStyle);
-        */
+      var fixitLayer = L.layerGroup([
+        L.marker([44.1493416835445, -94.00068640708923],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+        L.marker([44.147032170368675, -93.99894565343857],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+        L.marker([44.1457465022146, -93.99874448776245],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+        L.marker([44.14908892944841, -94.00068255150131],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+        L.marker([44.32444675302916, -93.97147178649902],{icon: fixitIcon}).bindPopup("Gustavus Adolphus College"),
+        L.marker([45.55331410263781, -94.15017664432526],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
+        L.marker([44.94945428128376, -93.32204461097717],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
+        L.marker([45.548659719926626, -94.15192544460297],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
+        L.marker([44.95025914661996, -93.29116702079773],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
+        L.marker([44.962467417644724, -93.23051154613495],{icon: fixitIcon}).bindPopup("Seward Coop"),
+        L.marker([44.9719065478189, -93.21057736873627],{icon: fixitIcon}).bindPopup("Dero HQ"),
+        L.marker([45.05771344221184, -92.8063952922821],{icon: fixitIcon}).bindPopup("River Market Coop"),
+      ]);
 
-        //Fixit Locations
-        //http://www.dero.com//fixitmap/fixitmap.html
-        var fixitIcon = L.icon({
-          iconUrl: "http://www.dero.com/fixitmap/marker.png",
-        });
+      var map = L.map('map', {
+        center: [latitude, longitude],
+        zoom: 16,
+        layers: [Esri_WorldGrayCanvas]
+      });
 
-        var fixitLayer = L.layerGroup([
-          L.marker([44.1493416835445, -94.00068640708923],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-          L.marker([44.147032170368675, -93.99894565343857],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-          L.marker([44.1457465022146, -93.99874448776245],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-          L.marker([44.14908892944841, -94.00068255150131],{icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-          L.marker([44.32444675302916, -93.97147178649902],{icon: fixitIcon}).bindPopup("Gustavus Adolphus College"),
-          L.marker([45.55331410263781, -94.15017664432526],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
-          L.marker([44.94945428128376, -93.32204461097717],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
-          L.marker([45.548659719926626, -94.15192544460297],{icon: fixitIcon}).bindPopup("Saint Cloud State"),
-          L.marker([44.95025914661996, -93.29116702079773],{icon: fixitIcon}).bindPopup("Midtown Greenway"),
-          L.marker([44.962467417644724, -93.23051154613495],{icon: fixitIcon}).bindPopup("Seward Coop"),
-          L.marker([44.9719065478189, -93.21057736873627],{icon: fixitIcon}).bindPopup("Dero HQ"),
-          L.marker([45.05771344221184, -92.8063952922821],{icon: fixitIcon}).bindPopup("River Market Coop"),
-        ]);
-        
-        var map = L.map('map', {
-            center: [latitude, longitude],
-            zoom: 16,
-            layers: [Esri_WorldGrayCanvas]
-        });
+      var baseMaps = {
+        "All Roads": Esri_WorldGrayCanvas,
+        "NatGeo": Esri_NatGeoWorldMap,
+        "Some Roads": Acetate_roads,
+        "Clear Roads": Acetate_basemap,
+      };
 
-        var baseMaps = {
-            "All Roads": Esri_WorldGrayCanvas,
-            "NatGeo": Esri_NatGeoWorldMap,
-            "Some Roads": Acetate_roads,
-            "Clear Roads": Acetate_basemap,
-        };
+      var overlayMaps = {
+        "Fixit Stations": fixitLayer,
+      };
 
-        var overlayMaps = {
-          "Fixit Stations": fixitLayer,
-        };
+      L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-        //User's Location
-        L.marker([latitude, longitude]).bindPopup("You").addTo(map);
+      //User's Location Marker
+      L.marker([latitude, longitude]).bindPopup("You").addTo(map);
 
-          //Will be set in the ajax success
-          $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitude}, function (data) {
-              L.geoJson(data, {
-                  style: function (feature) {
-                      return {color: 'green'};
-                  }
-              }).addTo(map);
-          });
+      //Will be set in the ajax success
+      $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitude}, function (data) {
+        L.geoJson(data, {
+          style: function (feature) {
+            return {color: 'green'};
+          }
+        }).addTo(map);
+      });
 
-      }
-      getLocation();
+      //Pull Lat/Lon of map center when user stops moving the map
+      map.on("moveend",function(){
+        latLng = map.getCenter();
+        //alert("Center Variable: " + latLng);
+        //L.marker(latLng).addTo(map);
+      });
+    }
 
+    getLocation();
+  </script>
 
-    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    
-    </body>
+</body>
 </html>
