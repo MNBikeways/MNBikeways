@@ -242,7 +242,7 @@
         L.marker([latitude, longitutde]).bindPopup("You").addTo(map);
 
           //Will be set in the ajax success
-          $.get("http://mnbikeways.herokuapp.com/OSM", {'lat': latitude, 'lon': longitutde}, function (data) {
+          $.get("http://localhost:8000/OSM", {'lat': latitude, 'lon': longitutde}, function (data) {
               L.geoJson(data, {
                   style: function (feature) {
                       return {color: 'green'};
