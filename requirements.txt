@@ -1,3 +1,4 @@
 Django==1.7.4
+geographiclib==1.40
 geojson==1.0.9
 requests==2.5.1
