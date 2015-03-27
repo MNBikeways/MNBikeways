@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponse
+
 import overpass
 import geojson
 from geographiclib.geodesic import Geodesic
+from requests import get
+import xml.etree.ElementTree as ET
 
 class MainPage(TemplateView):
 
@@ -30,3 +33,20 @@ class OverpassApiAjax(View):
         LatLonString = lat0 + "," + lon0 + ")"
         r = api.Get('way(around:' + around + ',' + LatLonString + "[bicycle=yes]", asGeoJSON=True)
         return HttpResponse(geojson.dumps(r), content_type="application/json; charset='utf-8'")
+
+
+class NiceRideAjax(View):
+    def get(self, request, *args, **kwargs):
+        r = get(url="https://secure.niceridemn.org/data2/bikeStations.xml")
+        doc = ET.fromstring(r.text)
+        stations = doc.findall('station')
+        # this isn't really json it is a bunch of  python dicts inside a python list
+        json = [{item.tag: item.text for item in station} for station in stations]  #look at that beauty there
+        gj = []
+        for d in json:
+            lat = d['lat']
+            long = d['long']
+            del d['lat']
+            del d['long']
+            gj.append({'type': 'Point', 'coordinates': [long, lat], 'properties': d})
+        return HttpResponse(geojson.dumps(gj), content_type="application/json; charset='utf-8'")
