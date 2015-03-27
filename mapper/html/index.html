@@ -278,7 +278,7 @@
         map.on("moveend", function () {
             var latLng = map.getCenter();
             var boundingBox = map.getBounds();
-            $.get("http://mnbikeways.herokuapp.com/OSM", {
+            $.get("http://mnbikeways.herokuapp.com/OSM/", {
                 'lat': latLng.lat,
                 'lon': latLng.lng,
                 'lat1': boundingBox.getSouthWest().lat,
@@ -293,7 +293,7 @@
 
         });
 
-        $.get("http://mnbikeways.herokuapp.com/NR", function (data) {
+        $.get("http://mnbikeways.herokuapp.com/NR/", function (data) {
             L.geoJson(data, {
                 pointToLayer: function (feature, latlng) {
                     return L.circleMarker(latlng, {
