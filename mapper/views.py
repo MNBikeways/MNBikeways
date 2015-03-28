@@ -44,9 +44,10 @@ class NiceRideAjax(View):
         json = [{item.tag: item.text for item in station} for station in stations]  #look at that beauty there
         gj = []
         for d in json:
-            lat = d['lat']
-            long = d['long']
-            del d['lat']
-            del d['long']
-            gj.append({'type': 'Point', 'coordinates': [long, lat], 'properties': d})
+            if d['public']==True
+                lat = d['lat']
+                long = d['long']
+                del d['lat']
+                del d['long']
+                gj.append({'type': 'Point', 'coordinates': [long, lat], 'properties': d})
         return HttpResponse(geojson.dumps(gj), content_type="application/json; charset='utf-8'")
