@@ -8,6 +8,9 @@ from geographiclib.geodesic import Geodesic
 from requests import get
 import xml.etree.ElementTree as ET
 
+
+
+
 class MainPage(TemplateView):
 
     def get(self, request, *args, **kwargs):
@@ -51,3 +54,4 @@ class NiceRideAjax(View):
                 del d['long']
                 gj.append({'type': 'Point', 'coordinates': [long, lat], 'properties': d})
         return HttpResponse(geojson.dumps(gj), content_type="application/json; charset='utf-8'")
+
