@@ -306,8 +306,9 @@
                     });
                 },
                 onEachFeature: function(feature,layer){
-                    layer.bindPopup("<ul><li>Number of Bikes: "+feature.properties.nbBikes+"</li>"
+                    layer.bindPopup("<ul>"+"<li>"+feature.properties.name+"</li>"+<li>Number of Bikes: "+feature.properties.nbBikes+"</li>"
                     +"<li>Empty Docks: "+feature.properties.nbEmptyDocks+"</li></ul>")
+
                 }
             }).addTo(map);
         });
