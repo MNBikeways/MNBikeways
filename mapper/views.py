@@ -44,7 +44,7 @@ class NiceRideAjax(View):
         json = [{item.tag: item.text for item in station} for station in stations]  #look at that beauty there
         gj = []
         for d in json:
-            if d['public']==True
+            if d['public']==True:
                 lat = d['lat']
                 long = d['long']
                 del d['lat']
