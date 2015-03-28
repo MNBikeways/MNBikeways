@@ -304,6 +304,9 @@
                         opacity: 1,
                         fillOpacity: 0.8
                     });
+                },
+                onEachFeature: function(feature,layer){
+                    layer.bindPopup("Number of Bikes: "+feature.properties.nbBikes)
                 }
             }).addTo(map);
         });
