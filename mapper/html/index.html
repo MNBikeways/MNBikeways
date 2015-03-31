@@ -300,7 +300,7 @@
         $.get("http://mnbikeways.herokuapp.com/NR/", function (data) {
             L.geoJson(data, {
                 pointToLayer: function (feature, latlng) {
-                    return L.Marker(latlng, {icon:niceRideIcon});
+                    return L.marker(latlng, {icon:niceRideIcon});
                 },
                 onEachFeature: function(feature,layer){
                     layer.bindPopup("<ul>"+"<li>"+feature.properties.name+"</li>"+"<li>Number of Bikes: "+feature.properties.nbBikes+"</li>"
