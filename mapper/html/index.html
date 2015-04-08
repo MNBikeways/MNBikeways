@@ -60,10 +60,13 @@
         #menu {
             background-color: #FFFFFF;
             border: solid 1px #630062;
-            width: 150px;
+            /*width: 150px;*/
             padding: 0;
             position: absolute;
+            z-index: 1;
             display: none;
+            margin-left: 25px;
+            margin-top: 25px;
         }
 
         #menu ul {
@@ -73,9 +76,17 @@
         }
 
         #menu li {
-            padding: 0;
+            padding: 0 5px 0 5px;
             margin: 0;
-            border: solid red 1px;
+            /*border: solid red 1px;*/
+        }
+
+        #baseMapSubMenu {
+            display: none;
+        }
+
+        #layersSubMenu {
+            display: none;
         }
 
         #logo {
@@ -116,6 +127,11 @@
             border: solid 1px maroon;
             padding: 2px 5px 2px 5px;
         }
+
+        /* Leaflet Style Modifications */
+        .leaflet-left {
+            z-index: 0;
+        }
     </style>
 </head>
 
@@ -127,9 +143,23 @@
   <div id="header">
     <div id="hamburger"></div>
     <div id="menu">
-        <ul>
-            <li>FixIt Stations</li>
-            <li>NiceRide Stations</li>
+        <ul class="mainMenu">
+            <li>
+                <span id="baseMapMenu">Base Maps</span>
+                <ul id="baseMapSubMenu">
+                    <li><input type="radio" name="baseMap" value="allRoads" checked="checked" /> All Roads</li>
+                    <li><input type="radio" name="baseMap" value="natGeo" /> NatGeo</li>
+                    <li><input type="radio" name="baseMap" value="someRoads" /> Some Roads</li>
+                    <li><input type="radio" name="baseMap" value="noRoads" /> No Roads</li>
+                </ul>
+            </li>
+            <li>
+                <span id="layersMenu">Layers</span>
+                <ul id="layersSubMenu">
+                    <li><input type="checkbox" value="fixItStations" /> FixIt Stations</li>
+                    <li><input type="checkbox" value="niceRide Stations" /> NiceRide Stations</li>
+                </ul>
+            </li>
             <li>About</li>
         </ul>
     </div>
@@ -314,12 +344,21 @@
     getLocation();
 
     /* Menu Scripts */
-    $('#hamburger').click(function(event) {
+    /*$('#hamburger').click(function(event) {
         event.stopPropagation();
         $('#menu').show();
     });
     $(document).click(function() {
         $('#menu').hide();
+    });*/
+    $('#hamburger').click(function() {
+        $('#menu').toggle();
+    });
+    $('#baseMapMenu').click(function(){
+        $('#baseMapSubMenu').toggle();
+    });
+    $('#layersMenu').click(function(){
+        $('#layersSubMenu').toggle();
     });
 
 </script>
