@@ -25,6 +25,14 @@
 
 
     <style type="text/css">
+        h3, h4, a {
+            color: #630062;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
         #header {
             height: 50px;
             width: 100%;
@@ -60,13 +68,13 @@
         #menu {
             background-color: #FFFFFF;
             border: solid 1px #630062;
-            /*width: 150px;*/
-            padding: 0;
+            padding: 5px 10px 5px 10px;
             position: absolute;
             z-index: 1;
             display: none;
             margin-left: 25px;
             margin-top: 25px;
+            max-width: 200px;
         }
 
         #menu ul {
@@ -78,15 +86,20 @@
         #menu li {
             padding: 0 5px 0 5px;
             margin: 0;
-            /*border: solid red 1px;*/
         }
 
-        #baseMapSubMenu {
+        #about {
+            background-color: #FFFFFF;
+            border: solid 1px #630062;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 5px;
+            position: absolute;
+            z-index: 1;
             display: none;
-        }
-
-        #layersSubMenu {
-            display: none;
+            margin-left: 25px;
+            margin-top: 25px;
+            max-width: 300px;
         }
 
         #logo {
@@ -128,9 +141,26 @@
             padding: 2px 5px 2px 5px;
         }
 
+        #myLocation {
+            height: 25px;
+            width: 25px;
+            background-image: url(static/navArrowPurple.png);
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+            position: absolute;
+            margin-left: 50%;
+            margin-top: -50px;
+            z-index: 1;
+            background-color: #630062;
+            cursor: pointer;
+        }
+
         /* Leaflet Style Modifications */
         .leaflet-left {
             z-index: 0;
+        }
+        .leaflet-right {
+            display: none;
         }
     </style>
 </head>
@@ -144,24 +174,34 @@
     <div id="hamburger"></div>
     <div id="menu">
         <ul class="mainMenu">
+            <!-- PROPOSED REMOVAL
             <li>
                 <span id="baseMapMenu">Base Maps</span>
                 <ul id="baseMapSubMenu">
-                    <li><input type="radio" name="baseMap" value="allRoads" checked="checked" /> All Roads</li>
-                    <li><input type="radio" name="baseMap" value="natGeo" /> NatGeo</li>
-                    <li><input type="radio" name="baseMap" value="someRoads" /> Some Roads</li>
-                    <li><input type="radio" name="baseMap" value="noRoads" /> No Roads</li>
+                    <li><input type="radio" name="baseMap" value="All Roads" checked="checked" /> All Roads</li>
+                    <li><input type="radio" name="baseMap" value="NatGeo" /> NatGeo</li>
+                    <li><input type="radio" name="baseMap" value="Some Roads" /> Some Roads</li>
+                    <li><input type="radio" name="baseMap" value="Clear Roads" /> No Roads</li>
                 </ul>
-            </li>
+            </li>-->
             <li>
-                <span id="layersMenu">Layers</span>
+                <span id="layersMenu"><h4>Features</h4></span>
                 <ul id="layersSubMenu">
-                    <li><input type="checkbox" value="fixItStations" /> FixIt Stations</li>
-                    <li><input type="checkbox" value="niceRide Stations" /> NiceRide Stations</li>
+                    <li><input type="checkbox" value="fixitLayer" class="fixItChk" /> FixIt Stations</li>
+                    <li><input type="checkbox" value="niceRideLayer" class="niceRideChk" /> NiceRide Stations</li>
                 </ul>
             </li>
-            <li>About</li>
+            <li><a href="#" id="aboutLnk"><h4>About</h4></a></li>
         </ul>
+    </div>
+    <div id="about">
+        <h3>About MNBikeways</h3>
+        <p>This app was developed at the 2015 Hennepin County Geo:Code event. MNBikeways is meant to take many of the useful features of various biking and mapping applications and combine them into one. MNBikeways goes even further by focusing on the Hennepin County area using local data from local sources.</p>
+        <h4>Authors</h4>
+        <p>Boyd Johnson, Dylan Edwards, Adam Gardner, Kisha Delain, Marvin Mensah</p>
+        <h4>Copyright &amp; Licensing</h4>
+        <p>&copy; MNBikeways 2015</p>
+        <a href="#" id="closeAbout">Close</a>
     </div>
     <div id="logo"></div>
     <div id="headerTitle">MNBikeways</div>
@@ -173,11 +213,15 @@
 
 <div id="map"></div>
 
+<div id="myLocation"></div>
+
 <script type="text/javascript">
     var latitude;
     var longitude;
     var latLng;
-
+    var map;
+    var fixitLayer;
+    var niceRideLayer;
 
     var wHeight = $(window).height();
     var wWidth = $(window).width();
@@ -213,6 +257,10 @@
         loadLeaflet(latitude, longitude);
     }
 
+    function updateLocation() {
+        map.locate({setView:true});
+    }
+
     //Leaflet Scipt
     function loadLeaflet(lat, long) {
         var Acetate_basemap = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-base/{z}/{x}/{y}.png', {
@@ -237,43 +285,28 @@
             maxZoom: 16
         });
 
-
-        // campus connector
-        /* Code Sample from UMN
-         var ConnIcon = L.icon({ iconUrl : "lib/img/CampusConn.png", iconSize: [32, 37], iconAnchor: [16, 37], popupAnchor: [0, -28] });
-         var ConnRouteStyle = { "color" : "#965252", "weight" : 4, "opacity" : 0.85, clickable : false };
-         var ConnectorLayer = L.geoJson(ConnStops, {
-         pointToLayer : function(feature, latlng) { return L.marker(latlng, {icon: ConnIcon}); },
-         onEachFeature : ConnFeatures
-         });
-         ConnectorLayer.addData(ConnStops);
-         ConnectorLayer.addData(ConnRoute).setStyle(ConnRouteStyle);
-         */
         //Fixit Locations
         //http://www.dero.com//fixitmap/fixitmap.html
-        var fixitIcon = L.
-                icon({
-                    iconUrl: "http://www.dero.com/fixitmap/marker.png"
-                });
+        var fixitIcon = L.icon({
+            iconUrl: "http://www.dero.com/fixitmap/marker.png"
+        });
 
-        var
+        fixitLayer = L.layerGroup([
+            L.marker([44.1493416835445, -94.00068640708923], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+            L.marker([44.147032170368675, -93.99894565343857], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+            L.marker([44.1457465022146, -93.99874448776245], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+            L.marker([44.14908892944841, -94.00068255150131], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
+            L.marker([44.32444675302916, -93.97147178649902], {icon: fixitIcon}).bindPopup("Gustavus Adolphus College"),
+            L.marker([45.55331410263781, -94.15017664432526], {icon: fixitIcon}).bindPopup("Saint Cloud State"),
+            L.marker([44.94945428128376, -93.32204461097717], {icon: fixitIcon}).bindPopup("Midtown Greenway"),
+            L.marker([45.548659719926626, -94.15192544460297], {icon: fixitIcon}).bindPopup("Saint Cloud State"),
+            L.marker([44.95025914661996, -93.29116702079773], {icon: fixitIcon}).bindPopup("Midtown Greenway"),
+            L.marker([44.962467417644724, -93.23051154613495], {icon: fixitIcon}).bindPopup("Seward Coop"),
+            L.marker([44.9719065478189, -93.21057736873627], {icon: fixitIcon}).bindPopup("Dero HQ"),
+            L.marker([45.05771344221184, -92.8063952922821], {icon: fixitIcon}).bindPopup("River Market Coop"),
+        ]);
 
-                fixitLayer = L.layerGroup([
-                    L.marker([44.1493416835445, -94.00068640708923], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-                    L.marker([44.147032170368675, -93.99894565343857], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-                    L.marker([44.1457465022146, -93.99874448776245], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-                    L.marker([44.14908892944841, -94.00068255150131], {icon: fixitIcon}).bindPopup("Minnesota State Mankato"),
-                    L.marker([44.32444675302916, -93.97147178649902], {icon: fixitIcon}).bindPopup("Gustavus Adolphus College"),
-                    L.marker([45.55331410263781, -94.15017664432526], {icon: fixitIcon}).bindPopup("Saint Cloud State"),
-                    L.marker([44.94945428128376, -93.32204461097717], {icon: fixitIcon}).bindPopup("Midtown Greenway"),
-                    L.marker([45.548659719926626, -94.15192544460297], {icon: fixitIcon}).bindPopup("Saint Cloud State"),
-                    L.marker([44.95025914661996, -93.29116702079773], {icon: fixitIcon}).bindPopup("Midtown Greenway"),
-                    L.marker([44.962467417644724, -93.23051154613495], {icon: fixitIcon}).bindPopup("Seward Coop"),
-                    L.marker([44.9719065478189, -93.21057736873627], {icon: fixitIcon}).bindPopup("Dero HQ"),
-                    L.marker([45.05771344221184, -92.8063952922821], {icon: fixitIcon}).bindPopup("River Market Coop"),
-                ]);
-
-        var map = L.map('map', {
+        map = L.map('map', {
             center: [latitude, longitude],
             zoom: 16,
             layers: [Esri_WorldGrayCanvas]
@@ -323,12 +356,13 @@
 
         });
 
+        //NiceRide
         var niceRideIcon = L.icon({iconUrl:'static/niceride.png',iconSize:[32,32],iconAnchor: [16, 37],
         popupAnchor: [0, -28]})
 
 
         $.get("http://mnbikeways.herokuapp.com/NR/", function (data) {
-            L.geoJson(data, {
+            niceRideLayer = L.geoJson(data, {
                 pointToLayer: function (feature, latlng) {
                     return L.marker(latlng, {icon:niceRideIcon});
                 },
@@ -337,30 +371,49 @@
                     +"<li>Empty Docks: "+feature.properties.nbEmptyDocks+"</li></ul>")
 
                 }
-            }).addTo(map);
+            });
         });
-
     }
     getLocation();
 
-    /* Menu Scripts */
-    /*$('#hamburger').click(function(event) {
-        event.stopPropagation();
-        $('#menu').show();
-    });
-    $(document).click(function() {
-        $('#menu').hide();
-    });*/
+    /* UI Scripts */
     $('#hamburger').click(function() {
         $('#menu').toggle();
-    });
-    $('#baseMapMenu').click(function(){
-        $('#baseMapSubMenu').toggle();
-    });
-    $('#layersMenu').click(function(){
-        $('#layersSubMenu').toggle();
+        $('#about').hide();
     });
 
+    $('#aboutLnk').click(function(){
+        $('#about').show();
+        $('#menu').hide();
+    });
+
+    $('#closeAbout').click(function(){
+        $('#about').hide();
+    });
+
+    $('.fixItChk').click(function(){
+        if(map.hasLayer(fixitLayer)) {
+            $(this).removeClass('selected');
+            map.removeLayer(fixitLayer);
+        } else {
+            map.addLayer(fixitLayer);        
+            $(this).addClass('selected');
+        }
+    });
+
+    $('.niceRideChk').click(function(){
+        if(map.hasLayer(niceRideLayer)) {
+            $(this).removeClass('selected');
+            map.removeLayer(niceRideLayer);
+        } else {
+            map.addLayer(niceRideLayer);        
+            $(this).addClass('selected');
+        }
+    });
+
+    $('#myLocation').click(function(){
+        updateLocation();
+    });
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
